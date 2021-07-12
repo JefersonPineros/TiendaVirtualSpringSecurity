@@ -57,7 +57,7 @@ public class Usuarios implements Serializable {
 	@Column(name = "FECHA_LOGUEO")
 	@Temporal(TemporalType.DATE)
 	private Date fechaLogueo;
-	private Integer state;
+	private boolean state;
 
 	@Column(name = "IMAGEN_USUARIO")
 	private String foto;

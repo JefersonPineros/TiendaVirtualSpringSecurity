@@ -13,11 +13,15 @@ public interface IUsuarioService {
 	
 	public UsuarioDto findById(Integer id);
 	
+	public Usuarios findByIdCompleto(Integer id);
+	
 	public UsuarioDto findByEmail(String email);
+
+	public Usuarios findByEmailCompleto(String email);
 	
 	public UsuarioDto createUser(Usuarios usuario, Integer roll) throws DataAccessException;
 	
-	public Usuarios updateUser(Usuarios usuario);
+	public UsuarioDto updateUser(Usuarios usuario);
 	
 	public void deleteUsers(Integer id);
 }

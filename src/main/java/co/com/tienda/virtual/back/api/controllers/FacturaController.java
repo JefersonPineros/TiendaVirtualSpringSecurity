@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.com.tienda.virtual.back.api.entity.dto.FacturaDto;
 import co.com.tienda.virtual.back.api.entity.models.Factura;
+import co.com.tienda.virtual.back.api.entity.models.Usuarios;
 import co.com.tienda.virtual.back.api.services.IFacturaService;
 import co.com.tienda.virtual.back.api.services.IProductosService;
+import co.com.tienda.virtual.back.api.services.IUsuarioService;
 
 @RestController
 @RequestMapping("/api/factura")
@@ -27,7 +29,9 @@ public class FacturaController {
 
 	@Autowired
 	private IFacturaService facturaService;
-
+	
+	@Autowired IUsuarioService usuarioService;
+	
 	@GetMapping()
 	public ResponseEntity<?> findFacturas() {
 		List<FacturaDto> listFacturas = null;
@@ -70,6 +74,7 @@ public class FacturaController {
 		FacturaDto newFactura = null;
 		Map<String, Object> result = new HashMap<>();
 		try {
+			factura.setUsuario(usuarioService.findByIdCompleto(factura.getUsuario().getId()));
 			newFactura = facturaService.createFactura(factura);
 		} catch (DataAccessException e) {
 			result.put("message", "Se ha presentado un error al generar la factura");
@@ -90,6 +95,8 @@ public class FacturaController {
 		Map<String, Object> result = new HashMap<>();
 		FacturaDto facturaActualizada = null;
 		try {
+			Usuarios usuarioFactura = usuarioService.findByIdCompleto(factura.getUsuario().getId());
+			factura.setUsuario(usuarioFactura);
 			facturaActualizada = facturaService.updateFactura(factura);
 		} catch (DataAccessException e) {
 			result.put("message", "Se ha presentado un error al generar la factura");

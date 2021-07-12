@@ -8,7 +8,7 @@ import co.com.tienda.virtual.back.api.entity.models.Factura;
 import co.com.tienda.virtual.back.api.entity.models.Usuarios;
 
 @Component
-public class ConstruirFactura {
+public class ConstruirDto {
 
 	public FacturaDto buildFactura(Factura factura) {
 		UsuarioDto usuarioFinal = null;
@@ -38,7 +38,7 @@ public class ConstruirFactura {
 				.nombre(usuario.getNombre())
 				.apellido(usuario.getApellido())
 				.email(usuario.getEmail())
-				.state(usuario.getState())
+				.state(usuario.isState())
 				.foto(usuario.getFoto())
 				.roles(usuario.getRoles())
 				.datosEntrega(usuario.getDatosEntrega())

@@ -14,7 +14,7 @@ public class UsuarioDto {
 	private String nombre;
 	private String apellido;
 	private String email;
-	private Integer state;
+	private boolean state;
 	private String foto;
 	
 	private List<Role> roles;

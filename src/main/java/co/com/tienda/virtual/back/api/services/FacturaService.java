@@ -16,8 +16,7 @@ import co.com.tienda.virtual.back.api.entity.dto.FacturaDto;
 import co.com.tienda.virtual.back.api.entity.models.Factura;
 import co.com.tienda.virtual.back.api.entity.models.Productos;
 import co.com.tienda.virtual.back.api.entity.models.ProductosFactura;
-import co.com.tienda.virtual.back.api.utils.ConstruirFactura;
-import net.bytebuddy.dynamic.loading.PackageDefinitionStrategy.Definition.Undefined;
+import co.com.tienda.virtual.back.api.utils.ConstruirDto;
 
 @Service
 public class FacturaService implements IFacturaService {
@@ -32,7 +31,7 @@ public class FacturaService implements IFacturaService {
 	private IFacturaDao facturaDao;
 	
 	@Autowired 
-	private ConstruirFactura construirFac;
+	private ConstruirDto construirFac;
 
 	@Autowired
 	private IProductosFacturaDao proFacturaDao;
@@ -58,8 +57,12 @@ public class FacturaService implements IFacturaService {
 	@Override
 	@Transactional(readOnly = true)
 	public FacturaDto findById(Integer id) {
+		FacturaDto facturaFinal = null;
 		Factura fact = facturaDao.findById(id).orElse(null);
-		FacturaDto facturaFinal = construirFac.buildFactura(fact);
+		if (fact != null) {			
+			facturaFinal = construirFac.buildFactura(fact);
+		}
+		
 		return facturaFinal;
 	}
 
@@ -79,7 +82,10 @@ public class FacturaService implements IFacturaService {
 		factura.setTotalFactura((totalFactura * iva) + totalFactura);
 
 		newFactura = facturaDao.save(factura);
-		FacturaDto facturaFinal = construirFac.buildFactura(newFactura);
+		FacturaDto facturaFinal = null;
+		if (newFactura != null) {			
+			facturaFinal = construirFac.buildFactura(newFactura);
+		}
 		return facturaFinal;
 	}
 
@@ -119,8 +125,11 @@ public class FacturaService implements IFacturaService {
 		facturaActual.setEstadoFactura(factura.getEstadoFactura());
 
 		Factura facturaActualizada = facturaDao.save(facturaActual);
+		FacturaDto facturaFinal = null;
 		
-		FacturaDto facturaFinal = construirFac.buildFactura(facturaActualizada);
+		if (facturaActualizada != null) {			
+			facturaFinal = construirFac.buildFactura(facturaActualizada);
+		}
 				
 		return facturaFinal;
 	}
